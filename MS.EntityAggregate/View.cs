@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using EasyNetQ;
 using MS.EntityAggregate.Dtos;
 
 namespace MS.EntityAggregate
@@ -10,7 +11,7 @@ namespace MS.EntityAggregate
 
     public static class EntityView
     {
-        public static IEntityView Instance { get; set; } = new EntityViewRestClient();
+        public static IEntityView Instance { get; set; } = new EntityViewRabbitClient();
     }
 
     public class EntityViewRestClient : IEntityView
@@ -28,6 +29,26 @@ namespace MS.EntityAggregate
             {
                 client.PostAsJsonAsync(Url, e).Wait();
             }
+        }
+    }
+
+    public class EntityViewRabbitClient : IEntityView
+    {
+        private readonly string _queueName;
+
+        public EntityViewRabbitClient(string queueName = "viewEvent")
+        {
+
+            _queueName = queueName;
+        }
+
+        public static IBus Bus { get; } =
+            RabbitHutch.CreateBus("amqp://dmowhoix:n95a17-CgycVl9cHsxXOCbVhX-R5iEDP@hare.rmq.cloudamqp.com/dmowhoix");
+        
+
+        public void HandleEvent(ViewEvent e)
+        {
+            Bus.Send(_queueName, e);
         }
     }
 }

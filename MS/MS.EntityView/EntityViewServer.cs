@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using EasyNetQ;
 using Microsoft.Owin.Hosting;
 using Newtonsoft.Json.Serialization;
 using Owin;
@@ -24,6 +25,27 @@ namespace MS.EntityView
         {
             _view.HandleEvent(e);
             return Ok();
+        }
+    }
+
+    public class EntityViewQueueListener
+    {
+        private readonly EntityView _view;
+
+        public static IBus Bus { get; } =
+            RabbitHutch.CreateBus("amqp://dmowhoix:n95a17-CgycVl9cHsxXOCbVhX-R5iEDP@hare.rmq.cloudamqp.com/dmowhoix");
+
+        public EntityViewQueueListener()
+        {
+            _view = EntityView.Instance;
+        }
+
+        public IDisposable Subscribe()
+        {
+            return Bus.Consume<ViewEvent>("viewEvent", e =>
+            {
+                _view.HandleEvent(e);
+            });
         }
     }
 

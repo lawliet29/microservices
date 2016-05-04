@@ -21,7 +21,7 @@ namespace MS
 
     public class RestApiEntityAggregateClient : IEntityAggregate
     {
-        private const string Endpoint = "http://localhost:9000/aggregate";
+        private const string Endpoint = "http://localhost:9002/aggregate";
 
         public void ProcessCommand(EntityCommand command)
         {

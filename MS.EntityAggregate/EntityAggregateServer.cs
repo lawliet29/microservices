@@ -13,7 +13,7 @@ namespace MS.EntityAggregate
 {
     public class EntityAggregateServer
     {
-        public IDisposable Connect() => WebApp.Start("http://localhost:9000", app =>
+        public IDisposable Connect() => WebApp.Start("http://localhost:9002", app =>
         {
             var configuration = new HttpConfiguration();
             configuration.MapHttpAttributeRoutes();
