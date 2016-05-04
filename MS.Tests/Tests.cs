@@ -124,6 +124,8 @@ namespace MS.Tests
 
             Assert.That(result["EntityId"].Value<int>(), Is.EqualTo(entityId));
             Assert.That(result["EventType"].Value<int>(), Is.EqualTo((int)eventType));
+
+            subscription.Dispose();
         }
 
         [Test]
