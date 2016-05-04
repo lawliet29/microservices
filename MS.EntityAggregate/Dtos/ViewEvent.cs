@@ -8,8 +8,7 @@ using EasyNetQ;
 namespace MS.EntityAggregate.Dtos
 {
     public enum ViewEventType { EntityCreated, EntityDeleted }
-
-    [Queue("ViewEvent")]
+    
     public class ViewEvent
     {
         public ViewEventType EventType { get; set; }

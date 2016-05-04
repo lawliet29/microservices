@@ -126,6 +126,19 @@ namespace MS.Tests
             Assert.That(result["EventType"].Value<int>(), Is.EqualTo((int)eventType));
         }
 
+        [Test]
+        public void Test5()
+        {
+            var rabbitClient = new EntityViewRabbitClient();
 
+            var entityId = 5;
+            var eventType = ViewEventType.EntityCreated;
+
+            rabbitClient.HandleEvent(new ViewEvent
+            {
+                EntityId = entityId,
+                EventType = eventType
+            });
+        }
     }
 }
