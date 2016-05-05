@@ -33,7 +33,7 @@ namespace MS.EntityView
         private readonly EntityView _view;
 
         public static IBus Bus { get; } =
-            RabbitHutch.CreateBus("amqp://dmowhoix:n95a17-CgycVl9cHsxXOCbVhX-R5iEDP@hare.rmq.cloudamqp.com/dmowhoix");
+            RabbitHutch.CreateBus("amqp://pcyuoarf:mm_DAba1hDupi1KnsR5l9kVsTupsBo3V@chicken.rmq.cloudamqp.com/pcyuoarf");
 
         public EntityViewQueueListener()
         {

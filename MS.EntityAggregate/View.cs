@@ -1,6 +1,11 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net;
+using System.Net.Http;
+using System.Text;
 using EasyNetQ;
+using EventStore.ClientAPI;
 using MS.EntityAggregate.Dtos;
+using Newtonsoft.Json;
 
 namespace MS.EntityAggregate
 {
@@ -35,6 +40,14 @@ namespace MS.EntityAggregate
     public class EntityViewRabbitClient : IEntityView
     {
         private readonly string _queueName;
+	
+		private readonly Lazy<IEventStoreConnection> _connection = new Lazy<IEventStoreConnection>(
+			() =>
+			{
+				var connection = EventStoreConnection.Create(new IPEndPoint(IPAddress.Loopback, 1113));
+				connection.ConnectAsync().Wait();
+				return connection;
+			}); 
 
         public EntityViewRabbitClient(string queueName = "viewEvent")
         {
@@ -42,13 +55,18 @@ namespace MS.EntityAggregate
             _queueName = queueName;
         }
 
-        public static IBus Bus { get; } =
-            RabbitHutch.CreateBus("amqp://dmowhoix:n95a17-CgycVl9cHsxXOCbVhX-R5iEDP@hare.rmq.cloudamqp.com/dmowhoix");
-        
 
-        public void HandleEvent(ViewEvent e)
+        public static IBus Bus { get; } =
+            RabbitHutch.CreateBus("amqp://pcyuoarf:mm_DAba1hDupi1KnsR5l9kVsTupsBo3V@chicken.rmq.cloudamqp.com/pcyuoarf");
+
+	    public IEventStoreConnection Connection => _connection.Value;
+
+		public void HandleEvent(ViewEvent e)
         {
             Bus.Send(_queueName, e);
+			
+			var eventData = new EventData(Guid.NewGuid(), e.GetType().ToString(), true, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(e)), null);
+			Connection.AppendToStreamAsync("viewEvent", ExpectedVersion.Any, eventData).Wait();
         }
     }
 }

@@ -1,5 +1,5 @@
 const bus = require('servicebus').bus({
-    url: 'amqp://dmowhoix:n95a17-CgycVl9cHsxXOCbVhX-R5iEDP@hare.rmq.cloudamqp.com/dmowhoix'
+    url: 'amqp://pcyuoarf:mm_DAba1hDupi1KnsR5l9kVsTupsBo3V@chicken.rmq.cloudamqp.com/pcyuoarf'
 });
 
 const queue = {

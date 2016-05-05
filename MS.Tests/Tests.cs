@@ -6,7 +6,7 @@ using MS.EntityAggregate;
 using MS.EntityView;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
-using CollectionAssert = Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert;
+//using CollectionAssert = Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert;
 using ViewEvent = MS.EntityAggregate.Dtos.ViewEvent;
 using ViewEventType = MS.EntityAggregate.Dtos.ViewEventType;
 
@@ -138,7 +138,7 @@ namespace MS.Tests
 
             rabbitClient.HandleEvent(new ViewEvent
             {
-                EntityId = entityId,
+                EntityId = 10,
                 EventType = eventType
             });
         }
