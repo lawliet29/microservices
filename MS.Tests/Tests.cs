@@ -74,7 +74,7 @@ namespace MS.Tests
         {
             // arrange
             var subscriber = new EntityViewQueueListener().Subscribe();
-            var aggregate = new EntityAggregate.EntityAggregate(new EntityViewRabbitClient());
+            var aggregate = new EntityAggregate.EntityAggregate(new EntityViewEventStoreClient());
 
             const int createId = 5;
             const int deleteId = 6;
@@ -102,7 +102,7 @@ namespace MS.Tests
         public void Test4()
         {
             const string queueName = "testQueue";
-            var rabbitClient = new EntityViewRabbitClient(queueName);
+            var rabbitClient = new EntityViewEventStoreClient(queueName);
 
             var entityId = 5;
             var eventType = ViewEventType.EntityCreated;
@@ -131,7 +131,7 @@ namespace MS.Tests
         [Test]
         public void Test5()
         {
-            var rabbitClient = new EntityViewRabbitClient();
+            var rabbitClient = new HttpApiEntityViewEventStoreClient();
 
             var entityId = 5;
             var eventType = ViewEventType.EntityCreated;

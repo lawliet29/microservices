@@ -1,11 +1,6 @@
-const bus = require('servicebus').bus({
-    url: 'amqp://pcyuoarf:mm_DAba1hDupi1KnsR5l9kVsTupsBo3V@chicken.rmq.cloudamqp.com/pcyuoarf'
-});
+const EventStore = require('event-store-client');
+const connection = new EventStore.Connection({});
 
-const queue = {
-    ack: true
-};
-
-bus.listen('viewEvent', queue, message => {
-    console.log(message);    
+connection.subscribeToStream('viewEvent', true, e => {
+    console.log('EventType: ' + e.data.EventType + ', EntityId: ' + e.data.EntityId);
 });
